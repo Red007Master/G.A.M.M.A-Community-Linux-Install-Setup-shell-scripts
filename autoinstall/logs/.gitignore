@@ -1,0 +1,4 @@
+# Ignore everything in this directory
+# Directory made to auto download an empty folder for logs when pulling from repo
+# Except this file
+!.gitignore
