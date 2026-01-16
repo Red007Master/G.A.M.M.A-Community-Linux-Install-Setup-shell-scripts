@@ -307,15 +307,23 @@ select() {
     log "Possible actions:"
     log "[1] - Install game files with stalker-gamma-cli"
     log "[2] - Setup flatpak GAMMA bottle"
-    log "Please select your action:"
-    while [  ]; do
-        
+    log "[3] - Exit"
+    user_input_select=""
+    selected=false
+    while [ ! selected ]; do
+        log "Please select your action:"
+        read -p user_input
+        if user_input_select==1; then
+            install_init
+            install
+            selected=true
+        fi
     done
 }
 main() {
     log "Main: script started (${SCRIPT_NAME})"
-
-
+    greet
+    select
     local end_time
     end_time="$(date +%s)"
     log "Main: script finished in $((end_time - START_TIME)) seconds"
