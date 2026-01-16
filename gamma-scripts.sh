@@ -306,6 +306,7 @@ setup() {
 die_exit() {
     log "Exitting due to user input selection - Exit"
     log "Bye!"
+    exit 1
 }
 greet() {
     log "Stalker GAMMA community install/setup shell scripts"
