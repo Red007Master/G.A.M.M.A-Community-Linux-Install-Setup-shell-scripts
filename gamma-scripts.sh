@@ -298,12 +298,16 @@ die() {
     read -r user_input && exit 1
 }
 greet() {
-    
+    log "Stalker GAMMA community install/setup shell scripts"
+    log "version '$SCRIPT_VERSION'"
+    log "For ducumentation see:"
+    log "https://github.com/ViridiLV/G.A.M.M.A-Community-Linux-Install-Setup-shell-scripts"
 }
 select() {
-    log red "ERROR: $*"
-    log "Press any key to close this program."
-    read -r user_input && exit 1
+    log "Please select your action:"
+    while [  ]; do
+        
+    done
 }
 main() {
     log "Main: script started (${SCRIPT_NAME})"
