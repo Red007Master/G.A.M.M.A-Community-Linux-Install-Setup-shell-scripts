@@ -92,6 +92,7 @@ setup_init() {
     log cyan "Init: [BOTTLE_NAME] is [${BOTTLE_NAME}]"
     log cyan "Init: [LAUNCHER_NAME] is [${LAUNCHER_NAME}]"
     log cyan "Init: [RUNNER_NAME] is [${RUNNER_NAME}]"
+    log cyan "Init: [WINEFITX] is [${WINEFITX}]"
     log cyan "Init: [BOTTLES_PREFIX_PATH] is [${BOTTLES_PREFIX_PATH}]"
     log cyan "Init: [BOTTLES_RUNNER_PATH] is [${BOTTLES_RUNNER_PATH}]"
     log cyan "Init: [BOTTLES_RUNNER_WINE] is [${BOTTLES_RUNNER_WINE}]"
@@ -178,9 +179,9 @@ setup_prefix_configure() {
 setup_prefix_verify() {
     log cyan "prefix_verify: Listing detected dependencies, might be useful for debugging, might be bugged"
     if [ $WINEFIX==1 ]; then
-        WINE="$BOTTLES_RUNNER_WINE" WINEPREFIX="$BOTTLES_PREFIX_PATH" $BOTTLES_RUNNER_WINETRICKS list-installed >> >(tee "$LOG_FILE") > >(tee -a "$LOG_FILE") 2> >(tee -a "$LOG_FILE" >&2)
+        WINE="$BOTTLES_RUNNER_WINE" WINEPREFIX="$BOTTLES_PREFIX_PATH" $BOTTLES_RUNNER_WINETRICKS list-installed > >(tee -a "$LOG_FILE") 2> >(tee -a "$LOG_FILE" >&2)
     else
-        WINEPREFIX="$BOTTLES_PREFIX_PATH" $BOTTLES_RUNNER_WINETRICKS list-installed >> >(tee "$LOG_FILE") > >(tee -a "$LOG_FILE") 2> >(tee -a "$LOG_FILE" >&2)
+        WINEPREFIX="$BOTTLES_PREFIX_PATH" $BOTTLES_RUNNER_WINETRICKS list-installed > >(tee -a "$LOG_FILE") 2> >(tee -a "$LOG_FILE" >&2)
     fi
 }
 setup_bottles_check_if_inital_setup_done() {
