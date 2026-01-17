@@ -51,7 +51,7 @@ chmod -x gamma-scripts.sh
 
   The script will download latest release from [https://github.com/FaithBeam/stalker-gamma-cli] 
   
-  and automatically proceed with the installation of game files.
+  After that the script will proceed to install the game using it. 
 
 
 ***Work in progress***
