@@ -21,7 +21,10 @@ Scripts are maintained in a rolling release manner, meaning you get them straigh
 Version numbers inside the scripts are informative for troubleshooting logs.
 
 1.1 Open a terminal instance in the main directory where your gamma and anomaly files will be.
-In this example 
+
+Make a folder and `cd` into it in your terminal.
+
+For example:
 ```
 cd /home/$USER/Games/GAMMA
 
