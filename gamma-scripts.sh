@@ -84,23 +84,23 @@ setup_init() {
         rm -v $LOG_FILE_NAME
         cd ..
     fi
-    log "Init: starting initialization"
-    log cyan "Init: Work variables:"
-    log cyan "Init: Script version is [$SCRIPT_VERSION]"
-    log cyan "Init: [GAMMA_DIR] is [${GAMMA_DIR}]"
-    log cyan "Init: [LOG_FILE] is [${LOG_FILE}]"
-    log cyan "Init: [BOTTLE_NAME] is [${BOTTLE_NAME}]"
-    log cyan "Init: [LAUNCHER_NAME] is [${LAUNCHER_NAME}]"
-    log cyan "Init: [RUNNER_NAME] is [${RUNNER_NAME}]"
-    log cyan "Init: [WINEFIX] is [${WINEFIX}]"
-    log cyan "Init: [BOTTLES_PREFIX_PATH] is [${BOTTLES_PREFIX_PATH}]"
-    log cyan "Init: [BOTTLES_RUNNER_PATH] is [${BOTTLES_RUNNER_PATH}]"
-    log cyan "Init: [BOTTLES_RUNNER_WINE] is [${BOTTLES_RUNNER_WINE}]"
-    log cyan "Init: [BOTTLES_RUNNER_WINETRICKS] is [${BOTTLES_RUNNER_WINETRICKS}]"
-    log cyan "Init: Distro info:"
-    log cyan "Init: [ID] is [${ID}]"
+    log "setup_init: starting initialization"
+    log cyan "setup_init: Work variables:"
+    log cyan "setup_init: Script version is [$SCRIPT_VERSION]"
+    log cyan "setup_init: [GAMMA_DIR] is [${GAMMA_DIR}]"
+    log cyan "setup_init: [LOG_FILE] is [${LOG_FILE}]"
+    log cyan "setup_init: [BOTTLE_NAME] is [${BOTTLE_NAME}]"
+    log cyan "setup_init: [LAUNCHER_NAME] is [${LAUNCHER_NAME}]"
+    log cyan "setup_init: [RUNNER_NAME] is [${RUNNER_NAME}]"
+    log cyan "setup_init: [WINEFIX] is [${WINEFIX}]"
+    log cyan "setup_init: [BOTTLES_PREFIX_PATH] is [${BOTTLES_PREFIX_PATH}]"
+    log cyan "setup_init: [BOTTLES_RUNNER_PATH] is [${BOTTLES_RUNNER_PATH}]"
+    log cyan "setup_init: [BOTTLES_RUNNER_WINE] is [${BOTTLES_RUNNER_WINE}]"
+    log cyan "setup_init: [BOTTLES_RUNNER_WINETRICKS] is [${BOTTLES_RUNNER_WINETRICKS}]"
+    log cyan "setup_init: Distro info:"
+    log cyan "setup_init: [ID] is [${ID}]"
     setup_check_if_distro_is_supported
-    log "Init: completed successfully"
+    log "setup_init: completed successfully"
 }
 setup_check_if_distro_is_supported(){
     found=false
@@ -111,14 +111,14 @@ setup_check_if_distro_is_supported(){
         fi
     done
     if $found; then
-        log red "Init: Your distro [${ID}] is know to have issues with this script."
+        log red "setup_check_if_distro_is_supported: Your distro [${ID}] is know to have issues with this script."
         die "Distro [${ID}] is NOT supported"
     else
         log green "Init: Your distro [${ID}] is not known to have issues."
     fi
 }
 setup_runner_install() {
-    log "runner_INSTALL: Checking if the runner exists"
+    log "setup_runner_install: Checking if the runner exists"
     cd $BOTTLES_RUNNER_PATH
     if [ -d "$RUNNER_NAME" ]; then
         log green "The folder of runner '$RUNNER_NAME' already exists!"
@@ -135,11 +135,11 @@ setup_runner_install() {
     fi
 }
 setup_flatpak_update() {
-    log "flatpak_update: Updating flatpak packages"
+    log "setup_flatpak_update: Updating flatpak packages"
     flatpak update
 }
 setup_flatpak_check() {
-    log "Checking if flatpak Bottles installed."
+    log "setup_flatpak_check: Checking if flatpak Bottles installed."
     if flatpak list --app | grep -q "com.usebottles.bottles"; then
         log green "com.usebottles.bottles is installed."
     else
@@ -149,7 +149,7 @@ setup_flatpak_check() {
     fi
 }
 setup_flatpak_perms() {
-    log "Checking if flatpak Bottles has file access permissions."
+    log "setup_flatpak_perms: Checking if flatpak Bottles has file access permissions."
     if flatpak info --show-permissions com.usebottles.bottles | grep -q "host"; then
         log green "Bottles has filesystem=host acess."
     else
@@ -159,25 +159,25 @@ setup_flatpak_perms() {
     fi
 }
 setup_bottles_makebottle() {
-    log cyan "bottles_makebottle: Making a bottle for the game"
+    log cyan "setup_bottles_makebottle: Making a bottle for the game"
     flatpak run --command=bottles-cli com.usebottles.bottles new --bottle-name "$BOTTLE_NAME" --environment gaming --runner "$RUNNER_NAME" > >(tee -a "$LOG_FILE") 2> >(tee -a "$LOG_FILE" >&2)
-    log cyan "bottles_makebottle: bottles-cli new ended"
+    log cyan "setup_bottles_makebottle: bottles-cli new ended"
 }
 setup_bottles_configure() {
-    log cyan "bottles_configure: Adding MO2 to bottles"
+    log cyan "setup_bottles_configure: Adding MO2 to bottles"
     flatpak run --command=bottles-cli com.usebottles.bottles add -b "$BOTTLE_NAME" --name "$LAUNCHER_NAME" --path "$GAMMA_DIR/GAMMA/ModOrganizer.exe" > >(tee -a "$LOG_FILE") 2> >(tee -a "$LOG_FILE" >&2)
     log cyan "\nbottles_configure: bottles-cli add ended"
 }
 setup_prefix_configure() {
-    log "prefix_configure: Installing dependencies"
+    log "setup_prefix_configure: Installing dependencies"
     if [ $WINEFIX==1 ]; then
-        WINE="$BOTTLES_RUNNER_WINE" WINEPREFIX="$BOTTLES_PREFIX_PATH" $BOTTLES_RUNNER_WINETRICKS list-installed > >(tee -a "$LOG_FILE") 2> >(tee -a "$LOG_FILE" >&2)
+        WINE="$BOTTLES_RUNNER_WINE" WINEPREFIX="$BOTTLES_PREFIX_PATH" $BOTTLES_RUNNER_WINETRICKS cmd d3dx9 dx8vb d3dcompiler_42 d3dcompiler_43 d3dcompiler_46 d3dcompiler_47 d3dx10_43 d3dx10 d3dx11_42 d3dx11_43 dxvk quartz > >(tee -a "$LOG_FILE") 2> >(tee -a "$LOG_FILE" >&2)
     else
-        WINEPREFIX="$BOTTLES_PREFIX_PATH" $BOTTLES_RUNNER_WINETRICKS list-installed >> >(tee "$LOG_FILE") > >(tee -a "$LOG_FILE") 2> >(tee -a "$LOG_FILE" >&2)
+        WINEPREFIX="$BOTTLES_PREFIX_PATH" $BOTTLES_RUNNER_WINETRICKS cmd d3dx9 dx8vb d3dcompiler_42 d3dcompiler_43 d3dcompiler_46 d3dcompiler_47 d3dx10_43 d3dx10 d3dx11_42 d3dx11_43 dxvk quartz >> >(tee "$LOG_FILE") > >(tee -a "$LOG_FILE") 2> >(tee -a "$LOG_FILE" >&2)
     fi
 }
 setup_prefix_verify() {
-    log cyan "prefix_verify: Listing detected dependencies, might be useful for debugging, might be bugged"
+    log cyan "setup_prefix_verify: Listing detected dependencies, might be useful for debugging, might be bugged"
     if [ $WINEFIX==1 ]; then
         WINE="$BOTTLES_RUNNER_WINE" WINEPREFIX="$BOTTLES_PREFIX_PATH" $BOTTLES_RUNNER_WINETRICKS list-installed > >(tee -a "$LOG_FILE") 2> >(tee -a "$LOG_FILE" >&2)
     else
