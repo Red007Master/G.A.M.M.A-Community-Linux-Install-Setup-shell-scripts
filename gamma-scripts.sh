@@ -166,7 +166,7 @@ setup_bottles_makebottle() {
 setup_bottles_configure() {
     log cyan "bottles_configure: Adding MO2 to bottles"
     flatpak run --command=bottles-cli com.usebottles.bottles add -b "$BOTTLE_NAME" --name "$LAUNCHER_NAME" --path "$GAMMA_DIR/GAMMA/ModOrganizer.exe" > >(tee -a "$LOG_FILE") 2> >(tee -a "$LOG_FILE" >&2)
-    log cyan "bottles_configure: bottles-cli add ended"
+    log cyan "\nbottles_configure: bottles-cli add ended"
 }
 setup_prefix_configure() {
     log "prefix_configure: Installing dependencies"
